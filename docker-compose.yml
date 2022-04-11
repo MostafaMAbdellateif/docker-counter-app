@@ -3,22 +3,27 @@ services:
   web-fe:
     build: .
     command: python app.py
+    container_name: flask-app
     ports:
-      - target: 5000
-        published: 5000
+      - target: 5656
+        published: 5657
     networks:
-      - counter-net
+      - web-net
+      - data-net
     volumes:
       - type: volume
         source: counter-vol
         target: /code
   redis:
     image: "redis:alpine"
+    container_name: redis-app
     networks:
-      counter-net:
+      data-net:
 
 networks:
-  counter-net:
+  web-net:
+  data-net:
+    internal: true
 
 volumes:
   counter-vol:
